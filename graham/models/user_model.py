@@ -1,3 +1,4 @@
+import datetime
 import peewee
 from enum import IntEnum
 
@@ -10,6 +11,19 @@ class User(BaseModel):
 
 	class Meta:
 		db_table = 'users'
+
+    @classmethod
+    def exists(self, user_id):
+        return self.select().where(id == user_id).count() > 0
+
+    @classmethod
+    def create(self, user_id, username):
+        if self.exists():
+            return None
+        user = User(id=user_id, username=username, created_at=datetime.datetime.utcnow())
+        if user.save() > 0:
+            return user
+        return None
 
 class UserRelationshipType(IntEnum):
     Favorites = 1

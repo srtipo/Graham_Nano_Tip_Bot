@@ -8,3 +8,6 @@ class Account(BaseModel):
 	pending_receive = peewee.DecimalField(default=0)
 	pending_send = peewee.DecimalField(default=0)
 	created_at = peewee.DateTimeField()
+
+    class Meta:
+        db_table = 'accounts'
